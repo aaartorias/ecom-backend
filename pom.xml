@@ -47,6 +47,16 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.clogr</groupId>
+			<artifactId>slf4j1-shim</artifactId>
+			<version>0.8.4</version>
+		</dependency>
+		<dependency>
+			<groupId>io.clogr</groupId>
+			<artifactId>clogr-slf4j1-adapter</artifactId>
+			<version>0.8.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
