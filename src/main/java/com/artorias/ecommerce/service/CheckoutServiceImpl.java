@@ -7,6 +7,7 @@ import com.artorias.ecommerce.entity.Customer;
 import com.artorias.ecommerce.entity.Order;
 import com.artorias.ecommerce.entity.OrderItem;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class CheckoutServiceImpl implements CheckoutService {
 
     private CustomerRepository customerRepository;
@@ -26,6 +28,8 @@ public class CheckoutServiceImpl implements CheckoutService {
     @Override
     @Transactional
     public PurchaseResponse placeOrder(Purchase purchase) {
+        log.info("placing order {}", purchase);
+
         Order order = purchase.getOrder();
 
         String orderTrackingNumber = this.generateOrderTrackingOrderNumber();
