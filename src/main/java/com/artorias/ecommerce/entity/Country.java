@@ -11,7 +11,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "country")
-//@Data
 @Getter
 @Setter
 public class Country {
