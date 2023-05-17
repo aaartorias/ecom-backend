@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -45,8 +46,14 @@ public class CheckoutServiceImpl implements CheckoutService {
         order.setBillingAddress(purchase.getBillingAddress());
 
         Customer customer = purchase.getCustomer();
-        customer.addOrder(order);
+        String customerEmail = customer.getEmail();
+        Customer existingCustomerWithSameEmail = customerRepository.findByEmail(customerEmail);
 
+        if (Objects.nonNull(existingCustomerWithSameEmail)) {
+            customer = existingCustomerWithSameEmail;
+        }
+
+        customer.addOrder(order);
         customerRepository.save(customer);
 
         return new PurchaseResponse(orderTrackingNumber);
