@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Check;
 import org.springframework.web.bind.annotation.*;
 
-//@CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/api/checkout")
 @Slf4j

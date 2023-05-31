@@ -1,9 +1,6 @@
 package com.artorias.ecommerce.configuration;
 
-import com.artorias.ecommerce.entity.Country;
-import com.artorias.ecommerce.entity.State;
-import com.artorias.ecommerce.entity.Product;
-import com.artorias.ecommerce.entity.ProductCategory;
+import com.artorias.ecommerce.entity.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +18,7 @@ import java.util.stream.Collectors;
 public class SpringDataRestConfig implements RepositoryRestConfigurer {
 
     private EntityManager entityManager;
+    private static final String GENERAL_PATH_PATTERN = "/**";
     @Value("${allowed.origins}")
     private String[] allowedOrigins;
 
@@ -41,10 +39,11 @@ public class SpringDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(config, theUnsupportedActions, ProductCategory.class);
         disableHttpMethods(config, theUnsupportedActions, Country.class);
         disableHttpMethods(config, theUnsupportedActions, State.class);
+        disableHttpMethods(config, theUnsupportedActions, Order.class);
     }
 
     private void configureCors(RepositoryRestConfiguration config, CorsRegistry cors) {
-        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(allowedOrigins);
+        cors.addMapping(config.getBasePath() + GENERAL_PATH_PATTERN).allowedOrigins(allowedOrigins);
     }
 
     private static void disableHttpMethods(RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions, Class clazz) {
@@ -57,18 +56,6 @@ public class SpringDataRestConfig implements RepositoryRestConfigurer {
 
     // expose entity ids
     private void exposeIds(RepositoryRestConfiguration config) {
-//        // fetch set of all entity classes from entity manager
-//        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
-//        List<Class> entityTypes = new ArrayList<>();
-//        entities.forEach( x -> entityTypes.add(x.getJavaType()));
-        // build a list of entity types
-//        List<Class> entityTypes = entities
-//                                    .stream()
-//                                    .map(entityType -> entityType.getJavaType())
-//                                    .collect(Collectors.toList());
-//         expose the entity ids for the array of entity/domain types
-//        Class[] domainTypes = entityTypes.toArray(new Class[0]);
-
         // fetch set of all entity classes from entity manager
         Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
 
@@ -80,4 +67,28 @@ public class SpringDataRestConfig implements RepositoryRestConfigurer {
 
         config.exposeIdsFor(domainTypes);
     }
+//    private void exposeIds(RepositoryRestConfiguration config) {
+////        // fetch set of all entity classes from entity manager
+////        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
+////        List<Class> entityTypes = new ArrayList<>();
+////        entities.forEach( x -> entityTypes.add(x.getJavaType()));
+//        // build a list of entity types
+////        List<Class> entityTypes = entities
+////                                    .stream()
+////                                    .map(entityType -> entityType.getJavaType())
+////                                    .collect(Collectors.toList());
+////         expose the entity ids for the array of entity/domain types
+////        Class[] domainTypes = entityTypes.toArray(new Class[0]);
+//
+//        // fetch set of all entity classes from entity manager
+//        Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
+//
+//        Class[] domainTypes = entities
+//                                .stream()
+//                                .map(entityType -> entityType.getJavaType())
+//                                .collect(Collectors.toList())
+//                                .toArray(new Class[0]);
+//
+//        config.exposeIdsFor(domainTypes);
+//    }
 }
