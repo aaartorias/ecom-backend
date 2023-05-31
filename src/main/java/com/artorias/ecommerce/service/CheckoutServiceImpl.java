@@ -52,7 +52,8 @@ public class CheckoutServiceImpl implements CheckoutService {
         if (Objects.nonNull(existingCustomerWithSameEmail)) {
             customer = existingCustomerWithSameEmail;
         }
-
+        log.info("customer email" + customer.getEmail());
+        order.setCustomer(customer);
         customer.addOrder(order);
         customerRepository.save(customer);
 
